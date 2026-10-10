@@ -3,3 +3,13 @@ main = "danmu_api/worker.js"
 compatibility_date = "2025-09-13"
 keep_vars = true
 compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Free 的单次请求/子请求资源比常规 Node 环境更紧张。
+# 搜索综艺时同时查询四个默认源容易返回 503；保留两个覆盖面较广的源，
+# 延长搜索缓存并限制单次弹幕数量，降低重复搜索和大响应带来的压力。
+# TOKEN、ADMIN_TOKEN 等私密变量仍只在 Cloudflare 面板中维护。
+[vars]
+SOURCE_ORDER = "douban,360"
+SEARCH_CACHE_MINUTES = "5"
+DANMU_LIMIT = "5"
+RATE_LIMIT_MAX_REQUESTS = "0"
